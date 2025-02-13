@@ -1,0 +1,148 @@
+/* ----- Google Fonts & Icons ----- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css');
+
+/* ----- Global Styles ----- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #b7d6f4, #98ac75);
+    color: #fff;
+    text-align: center;
+    padding-top: 70px; /* Décalage pour la navbar */
+}
+
+/* ----- Navbar ----- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgb(170, 98, 98);
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+}
+
+.navbar h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+.navbar .menu {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar .menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.navbar .menu a:hover {
+    color: #4ca1af;
+}
+h2{
+    color: rgb(170, 98, 98);
+}
+
+/* ----- Mise en page des formulaires côte à côte ----- */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-top: 40px;
+}
+
+/* ----- Cartes Formulaires ----- */
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    width: 45%;
+    max-width: 450px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    position: relative;
+    z-index: 10;
+}
+
+.container:hover {
+    transform: translateY(-5px);
+}
+
+/* ----- Form Elements ----- */
+label {
+    display: block;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-top: 15px;
+    text-align: left;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    outline: none;
+}
+
+/* ----- Buttons ----- */
+button {
+    margin-top: 20px;
+    width: 100%;
+    background: rgb(170, 98, 98);
+    color: white;
+    padding: 12px;
+    border: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+button i {
+    margin-right: 8px;
+}
+
+button:hover {
+    background: #912121;
+    transform: scale(1.05);
+}
+
+/* ----- Results ----- */
+p {
+    margin-top: 15px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* ----- Responsive Design ----- */
+@media (max-width: 900px) {
+    .form-container {
+        flex-direction: column;
+    }
+
+    .container {
+        width: 90%;
+    }
+}
