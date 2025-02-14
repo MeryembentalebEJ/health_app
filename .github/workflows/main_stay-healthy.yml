@@ -1,4 +1,6 @@
-name: Build and deploy Python app to Azure Web App - stay-healthy
+# Docs pour le déploiement sur Azure Web Apps : https://aka.ms/python-webapps-actions
+
+name: Build and Deploy Python App to Azure Web App - stay-healthy
 
 on:
   push:
@@ -10,30 +12,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read # Required for actions/checkout
+      contents: read  # Requis pour actions/checkout
 
     steps:
-      - name: Checkout repository
+      - name: Checkout du code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Installer Make
+        run: sudo apt-get install -y make
+
+      - name: Configurer la version de Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install Make
-        run: sudo apt-get update && sudo apt-get install -y make
-
-      - name: Run make init (setup environment & install dependencies)
+      - name: Installer les dépendances avec Makefile
         run: make init
 
-      - name: Run tests
+      - name: Exécuter les tests
         run: make test
 
-      - name: Zip artifact for deployment
+      - name: Zipper l’application pour le déploiement
         run: zip release.zip ./* -r
 
-      - name: Upload artifact for deployment
+      - name: Upload du package pour le job de déploiement
         uses: actions/upload-artifact@v4
         with:
           name: python-app
@@ -48,29 +50,29 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write # Required for authentication
-      contents: read # Required for actions/checkout
+      id-token: write  # Requis pour s'authentifier avec Azure
+      contents: read  # Requis pour actions/checkout
 
     steps:
-      - name: Download artifact from build job
+      - name: Télécharger l'artefact du build
         uses: actions/download-artifact@v4
         with:
           name: python-app
 
-      - name: Unzip artifact for deployment
+      - name: Dézipper l'artefact
         run: unzip release.zip
 
-      - name: Login to Azure
+      - name: Connexion à Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Web App
+      - name: Exécuter l'application pour validation
+        run: make run  # 🔥 Cette étape garantit que Flask fonctionne avant déploiement
+
+      - name: Déployer sur Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'stay-healthy'
           slot-name: 'Production'
-
-      - name: Run application
-        run: make run
