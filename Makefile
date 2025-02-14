@@ -1,7 +1,7 @@
 init:
 	@echo "📦 Installing dependencies..."
 	python -m venv venv && \
-	source venv/bin/activate && \
+	. venv/bin/activate && \
 	pip install -r requirements.txt
 
 run:
@@ -11,12 +11,12 @@ run:
 
 run-prod:
 	@echo "🚀 Running the Flask app in production with Gunicorn..."
-	source venv/bin/activate && \
+	. venv/bin/activate && \
 	gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
 test:
 	@echo "🧪 Running tests..."
-	source venv/bin/activate && \
+	. venv/bin/activate && \
 	python -m unittest discover -s tests
 
 deploy:

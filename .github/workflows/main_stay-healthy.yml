@@ -74,4 +74,5 @@ jobs:
           slot-name: 'Production'
 
       - name: Run application in production
+        shell: bash
         run: make run-prod  # On utilise Gunicorn ici
