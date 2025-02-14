@@ -1,10 +1,17 @@
-FROM python:3.9-slim
+# Image de base légère
+FROM python:3.11-slim
 
+# Définition du dossier de travail
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Copie des fichiers sources
+COPY . /app
 
-COPY . .
+# Installation des dépendances
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
+# Exposition du port pour Flask
+EXPOSE 5000
+
+# Commande de lancement
 CMD ["python", "app.py"]

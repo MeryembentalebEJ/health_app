@@ -1,17 +1,30 @@
+IMAGE_NAME = health-calculator
+PORT = 5000
+
+.PHONY: init run test build clean
+
+# Installation des dépendances
 init:
-	@echo "📦 Installing dependencies..."
-	python -m venv venv && \
-	pip install -r requirements.txt
+	@echo "Installation des dépendances..."
+	@pip install -r requirements.txt
 
+# Lancement de l'application Flask
 run:
-	@echo "🚀 Running the Flask app..."
-	
-	python app.py
+	@echo "Démarrage de l'application Flask sur le port $(PORT)..."
+	@python app.py
 
+# Exécution des tests
 test:
-	@echo "🧪 Running tests..."
-	python -m unittest discover -s tests
+	@echo "Exécution des tests..."
+	@pytest tests.py
 
-deploy:
-	@echo "🚀 Deploying to Azure..."
-	az webapp up --name stay-healthy --resource-group healthAppDevops --runtime "PYTHON:3.12" --os-type Linux
+# Création de l'image Docker
+build:
+	@echo "Construction de l'image Docker $(IMAGE_NAME)..."
+	@docker build -t $(IMAGE_NAME) .
+
+# Nettoyage des containers et des images
+clean:
+	@echo "Nettoyage des containers et des images Docker..."
+	@docker rm -f $$(docker ps -a -q) || true
+	@docker rmi -f $(IMAGE_NAME) || true
