@@ -3,7 +3,7 @@ from app.health_utils import calculate_bmi, calculate_bmr
 
 api_bp = Blueprint('api', __name__)
 
-@api_bp.route('/bmi', methods=['POST'])
+@api_bp.route('/', methods=['POST'])
 def bmi():
     try:
         data = request.get_json()
@@ -15,7 +15,7 @@ def bmi():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@api_bp.route('/bmr', methods=['POST'])
+@api_bp.route('/', methods=['POST'])
 def bmr():
     try:
         data = request.get_json()
