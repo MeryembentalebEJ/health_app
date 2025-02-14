@@ -1,30 +1,19 @@
-# Définition des variables
-PYTHON=python
-VENV_DIR=venv
-ACTIVATE=. $(VENV_DIR)/bin/activate
-
-# Initialisation: Création de l'environnement virtuel et installation des dépendances
 init:
-	@echo "Creating virtual environment and installing dependencies..."
-	$(PYTHON) -m venv $(VENV_DIR)
-	$(ACTIVATE) && pip install -r requirements.txt
+	@echo "📦 Installing dependencies..."
+	python -m venv venv && \
+	source venv/bin/activate && \
+	pip install -r requirements.txt
 
-# Lancer l'application Flask
-run: init
-	@echo "Running the Flask app..."
-	$(ACTIVATE) && python app.py
+run:
+	@echo "🚀 Running the Flask app..."
+	source venv/bin/activate && \
+	python app.py
 
-# Exécuter les tests
-test: init
-	@echo "Running tests..."
-	$(ACTIVATE) && python -m unittest discover -s tests
+test:
+	@echo "🧪 Running tests..."
+	source venv/bin/activate && \
+	python -m unittest discover -s tests
 
-# Construire l'image Docker
-build:
-	@echo "Building the Docker image..."
-	docker build -t health-app .
-
-# Nettoyer les fichiers temporaires
-clean:
-	@echo "Cleaning up..."
-	rm -rf __pycache__ $(VENV_DIR)
+deploy:
+	@echo "🚀 Deploying to Azure..."
+	az webapp up --name stay-healthy --resource-group healthApp --runtime "PYTHON:3.12" --os-type Linux
