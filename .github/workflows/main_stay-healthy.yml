@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read  # Autorise l'accès au code source
+      contents: read  
 
     steps:
       - name: 📥 Checkout repository
@@ -28,7 +28,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: 🧪 Run tests
-        run: make test || true  # Évite que l'échec des tests bloque le pipeline
+        run: python -m unittest discover -s tests || true  # Évite que l'échec des tests bloque le pipeline
 
       - name: 📦 Create artifact for deployment
         run: zip release.zip ./* -r
@@ -71,8 +71,7 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'stay-healthy'
-          slot-name: 'Production'
+          slot-name: 'Production'  
 
       - name: Run application in production
-        shell: bash
-        run: make run-prod  # On utilise Gunicorn ici
+        run: make run-prod  # Exécute Flask avec Gunicorn
