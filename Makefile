@@ -5,9 +5,14 @@ init:
 	pip install -r requirements.txt
 
 run:
-	@echo "🚀 Running the Flask app..."
+	@echo "🚀 Running the Flask app locally..."
 	source venv/bin/activate && \
-	python app.py
+	python app.py  # Garder cette version pour les tests en local
+
+run-prod:
+	@echo "🚀 Running the Flask app in production with Gunicorn..."
+	source venv/bin/activate && \
+	gunicorn -w 4 -b 0.0.0.0:8000 app:app
 
 test:
 	@echo "🧪 Running tests..."
@@ -16,4 +21,4 @@ test:
 
 deploy:
 	@echo "🚀 Deploying to Azure..."
-	az webapp up --name stay-healthy --resource-group healthApp --runtime "PYTHON:3.12" --os-type Linux
+	az webapp up --name stay-healthy --resource-group healthAppDevops --runtime "PYTHON:3.12" --os-type Linux
