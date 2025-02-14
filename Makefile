@@ -4,7 +4,7 @@ init:
 
 run:
 	@echo "Running the Flask app..."
-	python app.py
+	python app.py  # ✅ Make sure this runs on PORT 8000
 
 test:
 	@echo "Running tests..."

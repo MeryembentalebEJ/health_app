@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:5000"; // Change si besoin
+const API_URL = "http://127.0.0.1:8000"; // Change si besoin
 
 // Fonction pour calculer le BMI
 function calculateBMI() {

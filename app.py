@@ -4,15 +4,16 @@ import os
 
 app = create_app()
 
-# Assurer que Flask sert bien le frontend
+# Serve the frontend
 @app.route('/')
 def serve_frontend():
-    return send_from_directory(os.path.abspath('frontend'), 'index.html')
+    return send_from_directory(os.path.join(os.getcwd(), 'frontend'), 'index.html')
 
-# Assurer que Flask sert bien les fichiers statiques (CSS, JS)
+# Serve static files
 @app.route('/<path:path>')
 def serve_static_files(path):
-    return send_from_directory(os.path.abspath('frontend'), path)
+    return send_from_directory(os.path.join(os.getcwd(), 'frontend'), path)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 8000))  # ✅ Azure requires port 8000
+    app.run(host='0.0.0.0', port=port, debug=True)

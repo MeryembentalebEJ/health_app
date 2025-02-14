@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from .health_utils import calculate_bmi, calculate_bmr
+from app.health_utils import calculate_bmi, calculate_bmr
 
 api_bp = Blueprint('api', __name__)
 
