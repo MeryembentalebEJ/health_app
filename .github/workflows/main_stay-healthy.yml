@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - stay-healthy
+name: Build and Deploy Flask API to Azure Web App
 
 on:
   push:
@@ -9,11 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read  
 
     steps:
-      - name: 📥 Checkout repository
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
       - name: 🐍 Set up Python
@@ -28,29 +26,20 @@ jobs:
           pip install -r requirements.txt
 
       - name: 🧪 Run tests
-        run: python -m unittest discover -s tests || true  # Évite que l'échec des tests bloque le pipeline
+        run: python -m unittest discover -s tests || true  # Ne bloque pas le pipeline si les tests échouent
 
-      - name: 📦 Create artifact for deployment
-        run: zip release.zip ./* -r
+      - name: 📦 Zip artifact for deployment
+        run: zip -r release.zip . -x "venv/*"
 
       - name: ⬆️ Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            release.zip
-            !venv/
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build  # Assure que build est terminé avant de déployer
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-    permissions:
-      id-token: write
-      contents: read
+    needs: build
 
     steps:
       - name: 📥 Download artifact
@@ -68,10 +57,6 @@ jobs:
 
       - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'stay-healthy'
-          slot-name: 'Production'  
-
-      - name: Run application in production
-        run: make run-prod  # Exécute Flask avec Gunicorn
+          slot-name: 'Production'
